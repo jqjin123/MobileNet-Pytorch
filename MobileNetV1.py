@@ -14,12 +14,13 @@ class MobileNetV1(nn.Module):
 
         def conv_dw(inp, oup, stride):
             return nn.Sequential(
-                # dw
+                # dw -> depth-wise
+                # inp个输出卷积被分成inp组, 故每个输出卷积负责输入的一个通道
                 nn.Conv2d(inp, inp, 3, stride, 1, groups=inp, bias=False),
                 nn.BatchNorm2d(inp),
                 nn.ReLU(inplace=True),
 
-                # pw
+                # pw -> point-wise
                 nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
                 nn.BatchNorm2d(oup),
                 nn.ReLU(inplace=True),
